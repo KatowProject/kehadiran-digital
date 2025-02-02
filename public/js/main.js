@@ -5,6 +5,7 @@ const cameraSelect = document.getElementById("cameraSelect");
 
 let currentStream;
 let qrScanner;
+let isRequestInProgress = false;
 
 const startVideo = (deviceId) => {
     if (currentStream) {
@@ -77,9 +78,12 @@ cameraSelect.addEventListener("change", () => {
 });
 
 const handleQrCode = async (result) => {
-    try {
-        if (qrScanner) qrScanner.stop();
+    if (isRequestInProgress) return;
+    console.log(result);
 
+    isRequestInProgress = true;
+
+    try {
         const req = await fetch("/api/attend", {
             method: "POST",
             headers: {
@@ -96,6 +100,9 @@ const handleQrCode = async (result) => {
                 icon: "success",
                 confirmButtonText: "OK",
                 timer: 3000,
+                willClose: () => {
+                    isRequestInProgress = false;
+                }
             });
         } else {
             Swal.fire({
@@ -104,19 +111,23 @@ const handleQrCode = async (result) => {
                 icon: "error",
                 confirmButtonText: "OK",
                 timer: 3000,
+                willClose: () => {
+                    isRequestInProgress = false;
+                }
             });
         }
     } catch (error) {
-        console.error(error);
+        console.log(error);
         Swal.fire({
             title: "Error",
             text: "Internal Server Error",
             icon: "error",
             confirmButtonText: "OK",
             timer: 3000,
+            willClose: () => {
+                isRequestInProgress = false;
+            }
         });
-    } finally {
-        if (qrScanner) qrScanner.start();
     }
 };
 
