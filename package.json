@@ -7,6 +7,7 @@
     "faker": "node prisma/faker.js",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "import:user": "node scripts/importData.js",
     "generate:qruser": "node scripts/generateQrUser.js",
     "generate:certificate": "node scripts/generateCertificate.js"
   },
