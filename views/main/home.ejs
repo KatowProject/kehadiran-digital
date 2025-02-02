@@ -1,0 +1,128 @@
+<% layout("layout/template") %>
+<div class="container-fluid" style="margin-bottom: 100px">
+  <div class="row justify-content-center">
+    <div class="col-12" id="title">
+      <h2 class="text-center my-4">Daftar Mahasiswa yang Sudah Hadir</h2>
+    </div>
+
+    <div class="col-8" id="content">
+      <div style="max-height: 500px; overflow-y: auto">
+        <table class="table table-striped table-hover table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" style="width: 5%">No</th>
+              <th scope="col">Name</th>
+              <th scope="col">NIM</th>
+              <th scope="col">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Orang</td>
+              <td>NIM</td>
+              <td>Pagi</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <p class="text-center fw-bold">Last Update: 2021-12-12 12:12:12</p>
+    </div>
+
+    <div class="col-4" id="scan">
+      <select id="cameraSelect" class="form-select mb-3">
+        <option value="">Select a camera</option>
+      </select>
+      <video
+        id="video"
+        class="w-100"
+        width="auto"
+        height="300px"
+        style="border: 1px solid black"
+      ></video>
+    </div>
+  </div>
+</div>
+
+<% block('scripts').append('<script type="module" src="/js/main.js"></script>') %>
