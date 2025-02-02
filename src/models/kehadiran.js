@@ -47,7 +47,15 @@ module.exports = {
             orderBy: {
                 [sort.field]: sort.type
             },
-            take: limit
+            take: limit,
+            include: {
+                peserta: {
+                    select: {
+                        nama: true,
+                        nim: true
+                    }
+                }
+            }
         });
     },
 
@@ -80,7 +88,15 @@ module.exports = {
      */
     createAttendance: async (data) => {
         const attendance = await model.create({
-            data
+            data,
+            include: {
+                peserta: {
+                    select: {
+                        nama: true,
+                        nim: true
+                    }
+                }
+            }   
         });
 
         attendanceEmitter.emit('newAttendance', attendance);
