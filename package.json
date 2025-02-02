@@ -16,6 +16,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.3.0",
+    "canvas": "^3.1.0",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
