@@ -2,35 +2,37 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const model = prisma.peserta;
+const model = prisma.kehadiran;
 
 module.exports = {
     model,
-    getAllUsers: async () => {
+    getAllAttendances: async () => {
         return await model.findMany();
     },
-    getUserById: async (id) => {
+    getAttendanceById: async (id) => {
         return await model.findUnique({
             where: { id }
         });
     },
-    createUser: async (data) => {
+    getAttendanceByUserId: async (id) => {
+        return await model.findMany({
+            where: { peserta_id: id }
+        });
+    },
+    createAttendance: async (data) => {
         return await model.create({
             data
         });
     },
-    updateUser: async (id, data) => {
+    updateAttendance: async (id, data) => {
         return await model.update({
             where: { id },
             data
         });
     },
-    deleteUser: async (id) => {
+    deleteAttendance: async (id) => {
         return await model.delete({
             where: { id }
         });
     }
 }
-
-
-

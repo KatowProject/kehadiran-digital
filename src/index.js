@@ -52,9 +52,11 @@ if (isDevelopment) {
     log(chalk.cyan(`Local: ${urls.localUrl}`));
     log(chalk.cyan(`Network: ${urls.lanUrl}`));
 
-    app.listen(PORT);
+    app.listen(PORT, '0.0.0.0');
 } else {
     log(chalk.bgYellow(`🚀 Server is running on Production Mode`));
     log(chalk.cyan(`Local: http://localhost:${PORT}`));
     log(chalk.cyan(`Network: [Not Available]`));
+
+    app.listen(PORT);
 }

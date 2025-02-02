@@ -2,7 +2,7 @@ const fs = require('fs');
 const QrCode = require('qrcode');
 const { PrismaClient } = require('@prisma/client');
 
-const { encryptData } = require('../src/helpers/crypto');
+const { encryptData } = require('../src/utils/crypto');
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,10 @@ const generateQrUser = async () => {
     const users = await prisma.peserta.findMany();
 
     for (const user of users) {
-        const data = JSON.stringify(user);
+        const data = JSON.stringify({
+            id: user.id,
+            nama: user.nama
+        });
         const encryptedData = encryptData(data);
 
         const qr = await QrCode.toDataURL(encryptedData, {

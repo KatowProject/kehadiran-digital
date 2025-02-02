@@ -1,5 +1,10 @@
 const Express = require('express');
 
+const { getUserById } = require('../models/peserta');
+const { createAttendance, getAttendanceByUserId } = require('../models/kehadiran');
+
+const { decryptData } = require('../utils/crypto');
+
 /**
  * 
  * @param {Express.Request} req 
@@ -27,7 +32,46 @@ const index = async (req, res, next) => {
  * @param {Express.Response} res 
  * @param {*} next 
  */
-const attendPeserta = async (req, res, next) => {}
+const attendPeserta = async (req, res, next) => {
+    try {
+        const { data } = req.body;
+
+        if (!data) return res.status(400).json({
+            success: false,
+            message: 'Data is required'
+        });
+
+        const decryptedData = decryptData(data);
+        const { id } = JSON.parse(decryptedData);
+
+        const user = await getUserById(id);
+        if (!user) return res.status(404).json({
+            success: false,
+            message: 'User not found'
+        });
+
+        const attendance = await getAttendanceByUserId(id);
+        if (attendance.length > 0) return res.status(400).json({
+            success: false,
+            message: 'User already attended'
+        });
+
+        await createAttendance({
+            peserta_id: id,
+            hadir: true
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Attendance created'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
 
 module.exports = {
     index,

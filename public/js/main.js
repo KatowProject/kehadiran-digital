@@ -59,16 +59,65 @@ const getCameras = () => {
         });
 };
 
+const requestCameraPermission = () => {
+    navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+            stream.getTracks().forEach((track) => track.stop());
+            getCameras();
+        })
+        .catch((error) => {
+            console.error("Error requesting camera permission: ", error);
+        });
+};
+
+
 cameraSelect.addEventListener("change", () => {
     startVideo(cameraSelect.value);
 });
 
 const handleQrCode = async (result) => {
-    if (qrScanner) qrScanner.stop();
+    try {
+        if (qrScanner) qrScanner.stop();
 
-    console.log(result);
+        const req = await fetch("/api/attend", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ data: result }),
+        });
 
-    // run 
+        const res = await req.json();
+        if (res.success) {
+            Swal.fire({
+                title: "Success",
+                text: res.message,
+                icon: "success",
+                confirmButtonText: "OK",
+                timer: 3000,
+            });
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: res.message,
+                icon: "error",
+                confirmButtonText: "OK",
+                timer: 3000,
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        Swal.fire({
+            title: "Error",
+            text: "Internal Server Error",
+            icon: "error",
+            confirmButtonText: "OK",
+            timer: 3000,
+        });
+    } finally {
+        if (qrScanner) qrScanner.start();
+    }
 };
 
-getCameras();
+requestCameraPermission();
