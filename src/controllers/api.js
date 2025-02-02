@@ -21,6 +21,15 @@ const index = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {*} next 
+ */
+const attendPeserta = async (req, res, next) => {}
+
 module.exports = {
-    index
+    index,
+    attendPeserta
 }
