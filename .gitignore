@@ -5,3 +5,5 @@ assets/qr/*
 !assets/qr/.gitkeep
 assets/certificate/*
 !assets/certificate/.gitkeep
+assets/template/*
+!assets/template/.gitkeep

@@ -5,10 +5,10 @@
   "scripts": {
     "seed": "node prisma/seeds.js",
     "faker": "node prisma/faker.js",
-    "dev": "set NODE_ENV=development&&nodemon src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "generate:qruser": "node scripts/generateQrUser.js",
-    "generate:certificate": "node scripts/generateCertificate.js",
-    "start": "node src/index.js"
+    "generate:certificate": "node scripts/generateCertificate.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.3.0",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.4.0",
+    "cross-env": "^7.0.3",
     "local-ip-url": "^1.0.10",
     "nodemon": "^3.1.9",
     "prisma": "^6.3.0"

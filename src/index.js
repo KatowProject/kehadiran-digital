@@ -6,6 +6,9 @@ const prepareUrls = require('local-ip-url/prepareUrls');
 const ejsMate = require('ejs-mate');
 const path = require('path');
 
+const chalk = require('chalk');
+const log = console.log;
+
 const mainRoute = require('./routes/main');
 const apiRoute = require('./routes/api');
 
@@ -28,7 +31,7 @@ app.use('*', (_, res) => res.status(404).json({
 }));
 
 app.use((err, req, res, next) => {
-    console.error(err);
+    console.error(chalk.red(err.stack));
     return res.status(500).json({
         success: false,
         message: 'Internal Server Error'
@@ -45,7 +48,13 @@ if (isDevelopment) {
         port: PORT,
     });
 
-    app.listen(PORT, () => console.log(`🚀 Server is running on\nLocal: ${urls.localUrl}\nNetwork: ${urls.lanUrl}`));
+    log(chalk.bgGreen(`🚀 Server is running on Development Mode`));
+    log(chalk.cyan(`Local: ${urls.localUrl}`));
+    log(chalk.cyan(`Network: ${urls.lanUrl}`));
+
+    app.listen(PORT);
 } else {
-    app.listen(PORT, () => console.log(`🚀 Server is running on http://localhost:${PORT}`));
+    log(chalk.bgYellow(`🚀 Server is running on Production Mode`));
+    log(chalk.cyan(`Local: http://localhost:${PORT}`));
+    log(chalk.cyan(`Network: [Not Available]`));
 }
