@@ -5,8 +5,10 @@
   "scripts": {
     "seed": "node prisma/seeds.js",
     "faker": "node prisma/faker.js",
-    "dev": "set NODE_ENV=development&&nodemon index.js",
-    "start": "node index.js"
+    "dev": "set NODE_ENV=development&&nodemon src/index.js",
+    "generate:qruser": "node scripts/generateQrUser.js",
+    "generate:certificate": "node scripts/generateCertificate.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +20,8 @@
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.4.0",
