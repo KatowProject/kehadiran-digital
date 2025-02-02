@@ -11,8 +11,7 @@ const generateQrUser = async () => {
 
     for (const user of users) {
         const data = JSON.stringify({
-            id: user.id,
-            nama: user.nama
+            id: user.id
         });
         const encryptedData = encryptData(data);
 
