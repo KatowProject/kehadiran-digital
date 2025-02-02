@@ -1,9 +1,10 @@
 const Express = require('express');
 
 const { getUserById } = require('../models/peserta');
-const { createAttendance, getAttendanceByUserId } = require('../models/kehadiran');
+const { createAttendance, getAttendanceByUserId, getAllAttendances } = require('../models/kehadiran');
 
 const { decryptData } = require('../utils/crypto');
+const { dateISO } = require('../utils/date');
 
 /**
  * 
@@ -26,6 +27,27 @@ const index = async (req, res, next) => {
     }
 }
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {*} next 
+ */
+const listAttendances = async (req, res, next) => {
+    try {
+        const attendances = await getAllAttendances({ type: 'desc', field: 'created_at' });
+        return res.status(200).json({
+            success: true,
+            data: attendances
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
 /**
  * 
  * @param {Express.Request} req 
@@ -58,7 +80,8 @@ const attendPeserta = async (req, res, next) => {
 
         await createAttendance({
             peserta_id: id,
-            hadir: true
+            hadir: true,
+            created_at: dateISO('id')
         });
 
         return res.status(200).json({
@@ -66,6 +89,7 @@ const attendPeserta = async (req, res, next) => {
             message: 'Attendance created'
         });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error'
@@ -75,5 +99,6 @@ const attendPeserta = async (req, res, next) => {
 
 module.exports = {
     index,
+    listAttendances,
     attendPeserta
 }
