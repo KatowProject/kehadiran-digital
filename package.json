@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "seed": "node prisma/seeds.js",
+    "faker": "node prisma/faker.js",
     "dev": "set NODE_ENV=development&&nodemon index.js",
     "start": "node index.js"
   },
@@ -19,6 +21,7 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.4.0",
     "local-ip-url": "^1.0.10",
     "nodemon": "^3.1.9",
     "prisma": "^6.3.0"

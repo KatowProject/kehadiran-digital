@@ -11,6 +11,8 @@ async function main() {
             email: 'sigma@mail.com',
         }
     })
+
+    console.log('Seeding success');
 }
 
 main();
