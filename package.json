@@ -7,9 +7,11 @@
     "faker": "node prisma/faker.js",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
-    "import:users": "node scripts/importData.js",
+    "import:users": "node scripts/importUser.js",
+    "export": "node scripts/exportData.js",
+    "generate:kehadiran": "node scripts/generateKehadiran.js",
     "generate:qruser": "node scripts/generateQrUser.js",
-    "generate:certificate": "node scripts/generateCertificate.js"
+    "generate:certificate": "node scripts/generateCertificateUser.js"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +26,9 @@
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
+    "exceljs": "^4.4.0",
     "express": "^4.21.2",
+    "json2csv": "^6.0.0-alpha.2",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
     "qrcode": "^1.5.4",
