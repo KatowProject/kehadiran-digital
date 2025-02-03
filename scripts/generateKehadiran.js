@@ -16,28 +16,29 @@ const paginateData = (data, page) => {
 };
 
 const fetchAttendances = async () => {
-    return await prisma.kehadiran.findMany({
-        include: {
-            peserta: {
+    return await prisma.peserta.findMany({
+        select: {
+            nama: true,
+            nim: true,
+            kelas: true,
+            no_handphone: true,
+            Kehadiran: {
                 select: {
-                    nim: true,
-                    nama: true,
-                    email: true,
-                    no_handphone: true
+                    hadir: true,
                 }
             }
-        }
+        },
     });
 };
 
 const updateWorksheet = (worksheet, data, cellIndex) => {
     let start = 6;
     for (const attendance of data) {
-        worksheet.getCell(`${CELL[cellIndex]}${start}`).value = attendance.peserta.nama;
-        worksheet.getCell(`${CELL[cellIndex + 1]}${start}`).value = attendance.peserta.nim;
-        worksheet.getCell(`${CELL[cellIndex + 2]}${start}`).value = attendance.peserta.kelas;
-        worksheet.getCell(`${CELL[cellIndex + 3]}${start}`).value = attendance.peserta.no_handphone;
-        worksheet.getCell(`${CELL[cellIndex + 4]}${start}`).value = attendance.hadir ? '✔️' : '❌';
+        worksheet.getCell(`${CELL[cellIndex]}${start}`).value = attendance.nama;
+        worksheet.getCell(`${CELL[cellIndex + 1]}${start}`).value = attendance.nim;
+        worksheet.getCell(`${CELL[cellIndex + 2]}${start}`).value = attendance.kelas;
+        worksheet.getCell(`${CELL[cellIndex + 3]}${start}`).value = attendance.no_handphone;
+        worksheet.getCell(`${CELL[cellIndex + 4]}${start}`).value = attendance.Kehadiran[0]?.hadir ? '✔️' : '❌';
         start++;
     }
 };

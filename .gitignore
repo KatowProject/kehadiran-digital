@@ -7,3 +7,5 @@ assets/certificate/*
 !assets/certificate/.gitkeep
 assets/template/*
 !assets/template/.gitkeep
+assets/data/*
+!assets/data/.gitkeep
