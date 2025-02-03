@@ -1,5 +1,5 @@
 <% layout("layout/template") %>
-<div class="container-fluid" style="margin-bottom: 100px">
+<div class="container-fluid mt-5" style="margin-bottom: 100px" id="main">
   <div class="row justify-content-center">
     <div class="col-12" id="title">
       <h2 class="text-center my-4">Attendance System</h2>
@@ -14,11 +14,11 @@
         <div class="card-body">
           <div style="max-height: 650px; overflow-y: auto">
             <table
-              class="table table-striped table-hover table-bordered text-center"
+              class="table table-striped table-hover table-bordered table-responsive text-center"
               id="table-attendances"
             >
-              <thead class="thead-dark">
-                <tr>
+              <thead>
+                <tr class="table-dark">
                   <th scope="col" style="width: 5%">No</th>
                   <th scope="col">Name</th>
                   <th scope="col">NIM</th>
