@@ -80,9 +80,21 @@ npm run generate:qruser
 ```sh
 npm run generate:certificate
 ```
+### Generate Kehadiran Sheet
+```sh
+npm run generate:kehadiran
+```
 ### Import Data Peserta [CSV/Excel]
 ```sh
 npm run import:users
+```
+### Export Data Table (Database) [CSV/JSON]
+```sh
+npm run export -- --table=<kehadiran|users> --format=<csv|json>
+```
+Contoh:
+```sh
+npm run export -- --table=kehadiran --format=csv
 ```
 
 ## Lisensi
