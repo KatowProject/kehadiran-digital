@@ -63,6 +63,11 @@ const attendPeserta = async (req, res, next) => {
             message: 'Data is required'
         });
 
+        if (!data.includes(':')) return res.status(400).json({
+            success: false,
+            message: 'Invalid data'
+        });
+
         const decryptedData = decryptData(data);
         const { id } = JSON.parse(decryptedData);
 

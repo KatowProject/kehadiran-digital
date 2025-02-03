@@ -4,43 +4,74 @@
     <div class="col-12" id="title">
       <h2 class="text-center my-4">Attendance System</h2>
     </div>
-
+    
     <div class="col-8" id="content">
-      <h2 class="text-center my-4">Daftar Mahasiswa yang Sudah Hadir</h2>
-      <div style="max-height: 650px; overflow-y: auto">
-        <table class="table table-striped table-hover table-bordered" id="table-attendances">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col" style="width: 5%">No</th>
-              <th scope="col">Name</th>
-              <th scope="col">NIM</th>
-              <th scope="col">Time</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+      <div class="card">
+        <div class="card-header fw-bold">
+          Daftar Mahasiswa yang Sudah Hadir
+        </div>
+        
+        <div class="card-body">
+          <div style="max-height: 650px; overflow-y: auto">
+            <table
+              class="table table-striped table-hover table-bordered text-center"
+              id="table-attendances"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" style="width: 5%">No</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">NIM</th>
+                  <th scope="col">Time</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="col-4" id="scan">
-      <h2 class="text-center my-4">Scan QR Code</h2>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <div class="card">
+            <div class="card-header fw-bold">Scan QR Code</div>
 
-      <select id="cameraSelect" class="form-select mb-3">
-        <option value="">Select a camera</option>
-      </select>
-      <video
-        id="video"
-        class="w-100"
-        width="auto"
-        height="300px"
-        style="border: 1px solid black"
-      ></video>
+            <div class="card-body">
+              <select id="cameraSelect" class="form-select mb-3">
+                <option value="">Select a camera</option>
+              </select>
+              <video
+                id="video"
+                class="w-100"
+                width="auto"
+                height="300px"
+                style="border: 1px solid black"
+              ></video>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header fw-bold">With Scanner</div>
+
+            <div class="card-body">
+              <input
+              type="text"
+              id="scanner"
+              class="form-control"
+              placeholder="Scan QR Code"
+            />
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<% block('scripts').append('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>') %>
-<% block('scripts').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>') %>
-<% block('scripts').append('<script src="/js/main.js"></script>') %>
+<% block('scripts').append('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>') %> 
+<% block('scripts').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>') %> 
+<% block('scripts').append('<script src="/js/main.js"></script>') %> 
 <% block('scripts').append('<script type="module" src="/js/camera.js"></script>') %>

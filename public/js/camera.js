@@ -77,6 +77,12 @@ cameraSelect.addEventListener("change", () => {
     startVideo(cameraSelect.value);
 });
 
+
+$('#scanner').on('input', function () { 
+    handleQrCode(this.value);
+    this.value = '';
+});
+
 const handleQrCode = async (result) => {
     if (isRequestInProgress) return;
     console.log(result);

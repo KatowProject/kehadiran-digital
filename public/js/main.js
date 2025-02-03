@@ -1,18 +1,12 @@
 const socket = io();
 
-socket.on('connect', () => {
-    console.log('Connected to the WebSocket server');
-});
-
-socket.on('initialAttendances', (attendances) => {
-    console.log('Initial Attendances:', attendances);
-    const table = $("#table-attendances");
-
-    // remove all rows in tbody
-    table.find('tbody').empty();
+const updateTable = (attendances) => {
+    const tableBody = $("#table-attendances tbody");
+    tableBody.empty();
 
     attendances.forEach((attendance, i) => {
-        const date = new Date(attendance.created_at).toLocaleString();
+        const date = formatDate(attendance.created_at);
+        console.log(date);
         const element = `
             <tr>
                 <th scope="row">${i + 1}</th>
@@ -21,18 +15,13 @@ socket.on('initialAttendances', (attendances) => {
                 <td>${date}</td>
             </tr>
         `;
-
-        table.find('tbody').append(element);
+        tableBody.append(element);
     });
-});
+};
 
-socket.on('newAttendance', (attendance) => {
-    console.log('New Attendance:', attendance);
-
-    const date = new Date(attendance.created_at).toLocaleString();
-
-    // insert new row to the top of the table and fix the numbering
-    const table = $("#table-attendances");
+const addNewAttendance = (attendance) => {
+    const date = formatDate(attendance.created_at);
+    const tableBody = $("#table-attendances tbody");
 
     const element = `
         <tr>
@@ -43,13 +32,56 @@ socket.on('newAttendance', (attendance) => {
         </tr>
     `;
 
-    table.find('tbody').prepend(element);
+    tableBody.prepend(element);
 
-    table.find('tbody tr').each((i, el) => {
+    tableBody.find('tr').each((i, el) => {
         $(el).find('th').text(i + 1);
     });
+};
+
+socket.on('connect', () => {
+    console.log('Connected to the WebSocket server');
+});
+
+socket.on('initialAttendances', (attendances) => {
+    updateTable(attendances);
+});
+
+socket.on('newAttendance', (attendance) => {
+    addNewAttendance(attendance);
 });
 
 socket.on('disconnect', () => {
     console.log('Disconnected from the WebSocket server');
 });
+
+
+// title create animation
+const title = $('#title > h2');
+const titleText = title.text();
+
+title.empty();
+
+for (let i = 0; i < titleText.length; i++) {
+    setTimeout(() => {
+        title.text(title.text() + titleText[i]);
+    }, i * 100);
+}
+
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit', 
+        hour12: false 
+    };
+
+    const offset = date.getTimezoneOffset();
+
+    return date.toLocaleDateString('id-ID', options).replace(',', '') + ` GMT${offset > 0 ? '-' : '+'}${Math.abs(offset / 60)}`;
+};
