@@ -11,8 +11,8 @@ const importUsers = async () => {
     const folderPath = path.join(__dirname, '../assets/temp');
 
     // check users.csv or users.xlsx
-    const files = fs.readdirSync(filePath);
-    const file = files.find(file => file.includes('users'));
+    const files = fs.readdirSync(folderPath);
+    const file = files.find(file => file.includes('pendaftar'));
     const fileExtension = path.extname(file);
     const filePath = path.join(folderPath, file);
 
@@ -27,10 +27,18 @@ const importUsers = async () => {
             .on('data', (data) => results.push(data))
             .on('end', async () => {
                 for (const result of results) {
+                    let noHandphone = result['No Whatsapp'];
+                    // jika formatnya +62 ganti jadi 62
+                    // jika formatnya 08 ganti jadi 628
+                    noHandphone = noHandphone.replace('+62', '62');
+                    noHandphone = noHandphone.startsWith('08') ? noHandphone.replace('08', '628') : noHandphone;
+                    
                     users.push({
-                        nim: result.nim,
-                        nama: result.nama,
-                        kelas: result.kelas
+                        nim: result.NIM,
+                        nama: result.Nama,
+                        kelas: result.Kelas,
+                        no_handphone: noHandphone,
+                        email: result['Email Address']
                     });
                 }
 
@@ -62,6 +70,8 @@ const importUsers = async () => {
         console.log('File type not supported');
     }
 
-    fs.unlinkSync(filePath);
+    // fs.unlinkSync(filePath);
 }
+
+importUsers().catch(console.error);
 

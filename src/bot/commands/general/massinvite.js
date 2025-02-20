@@ -1,5 +1,9 @@
 const Kato = require("../../handler/ClientBuilder");
-const { Message } = require("whatsapp-web.js");
+const { Message, MessageMedia } = require("whatsapp-web.js");
+const fs = require('fs');
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 /**
  * @param {Kato} client 
@@ -9,51 +13,30 @@ const { Message } = require("whatsapp-web.js");
  */
 exports.run = async (client, message, args) => {
     try {
+        const User = prisma.peserta;
 
-        // const group = await message.getChat();
+        const dirQr = fs.readdirSync('assets/qr');
+        const qr = dirQr.filter(file => file.endsWith('.jpeg'));
 
-        // // invite with mention someone
-        // if (args.length > 0) {
-        //     const contact = await client.getContactById(`${args[0]}@c.us`);
-        //     await group.addParticipants([contact.id._serialized], {
-        //         comment: `Halo {nama}, saya Bot Kato, asisten untuk workshop "HACKED YOUR SOUND". Saya ingin mengundang Anda ke grup peserta untuk mendapatkan informasi lebih lanjut. Izinkan saya menambahkan Anda ke dalam grup, ya!`
-        //     });
-
-        //     client.sendMessage(message.from, `Invite ${contact.name ?? 'Someone' } success!`);
-        // } else {
-        //     client.sendMessage(message.from, `Invite link: ${await group.getInviteCode()}`);
-        // }
-
-        // mass invite
         const group = await message.getChat();
-
-        const users = [
-            {
-                nama: 'Haikal',
-                phone: '6285886295655'
-            },
-            {
-                nama: 'Harist',
-                phone: '6281317053724'
-            },
-            {
-                nama: 'Saepudin',
-                phone: '6281315436892'
-            },
-            {
-                nama: 'Gozali',
-                phone: '6283815906967'
-            }
-        ]
+        const users = await User.findMany();
 
         for (const user of users) {
-            const contact = await client.getContactById(`${user.phone}@c.us`);
+            const contact = await client.getContactById(`${user.no_handphone}@c.us`);
             await group.addParticipants([contact.id._serialized], {
-                comment: `Halo ${user.nama}, saya Bot Kato, asisten untuk workshop "HACKED YOUR SOUND". Saya ingin mengundang Anda ke grup peserta untuk mendapatkan informasi lebih lanjut. Izinkan saya menambahkan Anda ke dalam grup, ya!`
+                comment: `Halo ${user.nama}, saya Bot Kato, asisten untuk workshop "🎧 HACKED YOUR SOUND: SOUND DESIGN EXPLORATION 🎧". Saya ingin mengundang Anda ke grup peserta untuk mendapatkan informasi lebih lanjut. Izinkan saya menambahkan Anda ke dalam grup, ya!`
+            });
+            
+            const qrCode = qr.find(file => file.includes(user.nim));
+            const media = MessageMedia.fromFilePath(`assets/qr/${qrCode}`);
+            await client.sendMessage(contact.id._serialized, media, {
+                caption: `Ada QR Code untuk masuk ke grup workshop "🎧 HACKED YOUR SOUND: SOUND DESIGN EXPLORATION 🎧". Silakan scan QR Code ini untuk masuk ke grup.`
             });
 
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
+
+        client.sendMessage(message.from, `Invite ${users.length} success!`);
     } catch (error) {
 
         client.sendMessage(message.from, `Something went wrong: ${error.message}`);

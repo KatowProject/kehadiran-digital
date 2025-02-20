@@ -9,6 +9,7 @@ assets/template/*
 !assets/template/.gitkeep
 assets/data/*
 !assets/data/.gitkeep
+assets/temp/pendaftar.csv
 .wwebjs_auth
 .wwebjs_cache
 config.json

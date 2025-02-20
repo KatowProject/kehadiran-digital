@@ -23,7 +23,7 @@ const generateQrUser = async () => {
             width: 500
         });
 
-        const path = `assets/qr/${user.id}.jpeg`;
+        const path = `assets/qr/${user.nim}.jpeg`;
         fs.writeFileSync(path, qr.split(';base64,').pop(), { encoding: 'base64' });
 
         console.log(`QR Code for ${user.nama} has been generated!`);
