@@ -7,6 +7,8 @@
     "faker": "node prisma/faker.js",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "start:bot": "cross-env NODE_ENV=production node src/bot/index.js",
+    "dev:bot": "cross-env NODE_ENV=development nodemon src/bot/index.js",
     "import:users": "node scripts/importUser.js",
     "export": "node scripts/exportData.js",
     "generate:kehadiran": "node scripts/generateKehadiran.js",
@@ -31,8 +33,11 @@
     "json2csv": "^6.0.0-alpha.2",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
+    "node-superfetch": "^0.3.4",
     "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
     "socket.io": "^4.8.1",
+    "whatsapp-web.js": "^1.26.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

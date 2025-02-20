@@ -9,3 +9,6 @@ assets/template/*
 !assets/template/.gitkeep
 assets/data/*
 !assets/data/.gitkeep
+.wwebjs_auth
+.wwebjs_cache
+config.json
