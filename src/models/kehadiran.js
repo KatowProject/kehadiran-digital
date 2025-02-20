@@ -111,10 +111,22 @@ module.exports = {
      * @returns {Promise<Object>}
      */
     updateAttendance: async (id, data) => {
-        return await model.update({
+        const attendance = await model.update({
             where: { id },
-            data
-        });
+            data,
+            include: {
+                peserta: {
+                    select: {
+                        nama: true,
+                        nim: true
+                    }
+                }
+            }
+        });;
+
+        attendanceEmitter.emit('updateAttendance', attendance);
+
+      return attendance;
     },
 
     /**

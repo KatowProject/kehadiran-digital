@@ -22,6 +22,15 @@ const sendNewAttendances = (socket, attendance) => {
     socket.emit('newAttendance', attendance);
 };
 
+/**
+ * Sends updated attendance to the connected client
+ * @param {Socket} socket
+ * @param {Object} attendance
+ */
+const sendUpdateAttendance = (socket, attendance) => {
+    socket.emit('updateAttendance', attendance);
+}
+
 const socketHandler = (io) => {
     io.on('connection', (socket) => {
         console.log('Client connected:', socket.id);
@@ -30,6 +39,9 @@ const socketHandler = (io) => {
 
         const handleNewAttendance = (attendance) => sendNewAttendances(socket, attendance);
         attendanceEmitter.on('newAttendance', handleNewAttendance);
+
+        const handleUpdateAttendance = (attendance) => sendUpdateAttendance(socket, attendance);
+        attendanceEmitter.on('updateAttendance', handleUpdateAttendance);
 
         socket.on('disconnect', () => {
             console.log('Client disconnected');

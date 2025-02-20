@@ -2,41 +2,83 @@ const socket = io();
 
 const updateTable = (attendances) => {
     const tableBody = $("#table-attendances tbody");
+    const tableExitBody = $("#table-exits tbody");
+
     tableBody.empty();
+    tableExitBody.empty();
 
     attendances.forEach((attendance, i) => {
         const date = formatDate(attendance.created_at);
-        console.log(date);
-        const element = `
-            <tr>
-                <th scope="row">${i + 1}</th>
-                <td>${attendance.peserta.nama}</td>
-                <td>${attendance.peserta.nim}</td>
-                <td>${date}</td>
-            </tr>
-        `;
-        tableBody.append(element);
+        const dateUpdate = formatDate(attendance.updated_at);
+
+        if (attendance.hadir) {
+            const element = `
+                <tr>
+                    <th scope="row">${i + 1}</th>
+                    <td>${attendance.peserta.nama}</td>
+                    <td>${attendance.peserta.nim}</td>
+                    <td>${date}</td>
+                </tr>
+            `;
+
+            tableBody.append(element);
+        }
+        
+        if (attendance.keluar) {
+            const element = `
+                <tr>
+                    <th scope="row">${i + 1}</th>
+                    <td>${attendance.peserta.nama}</td>
+                    <td>${attendance.peserta.nim}</td>
+                    <td>${dateUpdate}</td>
+                </tr>
+            `;
+            tableExitBody.append(element);
+        }
     });
 };
 
 const addNewAttendance = (attendance) => {
+    console.log(attendance);
     const date = formatDate(attendance.created_at);
+    const dateUpdate = formatDate(attendance.updated_at);
+
     const tableBody = $("#table-attendances tbody");
+    const tableExitBody = $("#table-exits tbody");
 
-    const element = `
-        <tr>
-            <th scope="row">1</th>
-            <td>${attendance.peserta.nama}</td>
-            <td>${attendance.peserta.nim}</td>
-            <td>${date}</td>
-        </tr>
-    `;
+    // tableBody.prepend(element);
+    if (attendance.hadir && !attendance.keluar) {
+        const element = `
+            <tr>
+                <th scope="row">1</th>
+                <td>${attendance.peserta.nama}</td> 
+                <td>${attendance.peserta.nim}</td>
+                <td>${date}</td>
+            </tr>
+        `;
+        tableBody.prepend(element);
 
-    tableBody.prepend(element);
+        tableBody.find('tr').each((i, el) => {
+            $(el).find('th').text(i + 1);
+        });
+    }
 
-    tableBody.find('tr').each((i, el) => {
-        $(el).find('th').text(i + 1);
-    });
+    if (attendance.keluar) {
+        const element = `
+            <tr>
+                <th scope="row">1</th>
+                <td>${attendance.peserta.nama}</td>
+                <td>${attendance.peserta.nim}</td>
+                <td>${dateUpdate}</td>
+            </tr>
+        `;
+
+        tableExitBody.prepend(element);
+
+        tableExitBody.find('tr').each((i, el) => {
+            $(el).find('th').text(i + 1);
+        });
+    }
 };
 
 socket.on('connect', () => {
@@ -48,6 +90,10 @@ socket.on('initialAttendances', (attendances) => {
 });
 
 socket.on('newAttendance', (attendance) => {
+    addNewAttendance(attendance);
+});
+
+socket.on('updateAttendance', (attendance) => {
     addNewAttendance(attendance);
 });
 
@@ -71,17 +117,15 @@ for (let i = 0; i < titleText.length; i++) {
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = { 
-        day: '2-digit', 
-        month: '2-digit', 
-        year: 'numeric', 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit', 
-        hour12: false 
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
     };
 
-    const offset = date.getTimezoneOffset();
-
-    return date.toLocaleDateString('id-ID', options).replace(',', '') + ` GMT${offset > 0 ? '-' : '+'}${Math.abs(offset / 60)}`;
+    return date.toLocaleDateString('id-ID', options).replace(',', '');
 };

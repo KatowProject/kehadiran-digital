@@ -30,6 +30,7 @@ model Kehadiran {
   peserta_id Int
   peserta    Peserta  @relation(fields: [peserta_id], references: [id])
   hadir      Boolean
+  keluar     Boolean  @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

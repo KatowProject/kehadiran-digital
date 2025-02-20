@@ -1,7 +1,7 @@
 const Express = require('express');
 
 const { getUserById } = require('../models/peserta');
-const { createAttendance, getAttendanceByUserId, getAllAttendances } = require('../models/kehadiran');
+const { createAttendance, getAttendanceByUserId, getAllAttendances, updateAttendance } = require('../models/kehadiran');
 
 const { decryptData } = require('../utils/crypto');
 const { dateISO } = require('../utils/date');
@@ -78,16 +78,25 @@ const attendPeserta = async (req, res, next) => {
         });
 
         const attendance = await getAttendanceByUserId(id);
-        if (attendance.length > 0) return res.status(400).json({
+        if (attendance.length > 0 && attendance[0].hadir && attendance[0].keluar) return res.status(400).json({
             success: false,
             message: 'User already attended'
         });
 
-        await createAttendance({
-            peserta_id: id,
-            hadir: true,
-            created_at: dateISO('id')
-        });
+        // jika peserta belum hadir,  tambahkan data kehadiran
+        if (attendance.length === 0) {
+            await createAttendance({
+                peserta_id: id,
+                hadir: true,
+                created_at: dateISO('id'),
+            });
+        } else {
+            await updateAttendance(attendance[0].id, {
+                hadir: true,
+                keluar: true,
+                updated_at: dateISO('id')
+            });
+        }
 
         return res.status(200).json({
             success: true,
